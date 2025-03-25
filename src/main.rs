@@ -1,4 +1,3 @@
-use emscripten_functions::emscripten;
 use libc;
 use std::ffi::CString;
 fn main() {
@@ -6,10 +5,13 @@ fn main() {
     let fd = unsafe { libc::open(path.as_ptr(), libc::O_RDONLY, 0o666) };
     // Check for errors
     if fd < 0 {
-        println!("Error opening file: {}", fd);
+        println!("[RUST + WASM] Error opening file: {}", fd);
         // Handle the error
     } else {
-        println!("File opened successfully with file descriptor: {}", fd);
+        println!(
+            "[RUST + WASM] File opened successfully with file descriptor: {}",
+            fd
+        );
 
         // Read file content
         let mut buffer = [0u8; 256]; // Buffer to store file data
@@ -18,7 +20,7 @@ fn main() {
 
         if bytes_read > 0 {
             let content = String::from_utf8_lossy(&buffer[..bytes_read as usize]);
-            println!("File content: {}", content);
+            println!("[RUST + WASM] File content: {}", content);
         }
 
         unsafe { libc::close(fd) };

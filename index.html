@@ -10,17 +10,13 @@
 <body>
     <script>
         var Module = {
-            preRun: [
-                function () {
-                    return fetch("foo.txt") // Fetch the file
-                        .then(response => response.text()) // Convert response to text
-                        .then(text => {
-                            FS.writeFile("/foo.txt", text); // Write to MEMFS
-                            console.log("foo.txt created in MEMFS with content:", text);
-                        })
-                        .catch(err => console.error("Error fetching foo.txt:", err));
-                }
-            ]
+            noInitialRun: false,
+            preInit: async () => {
+                const data = await fetch("/foo.txt");
+                const text = await data.text();
+                FS.writeFile("/foo.txt", text);
+                console.log(`foo.txt created in MEMFS size: ${text.length}`);
+            }
         };
     </script>
     <script src="./target/wasm32-unknown-emscripten/debug/rust-async.js"></script>
