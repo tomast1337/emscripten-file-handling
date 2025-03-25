@@ -1,0 +1,8 @@
+[package]
+name = "rust-async"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+emscripten-functions = "0.3.0"
+libc = "0.2.171"

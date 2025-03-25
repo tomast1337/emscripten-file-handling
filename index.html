@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var Module = {
+            preRun: [
+                function () {
+                    return fetch("foo.txt") // Fetch the file
+                        .then(response => response.text()) // Convert response to text
+                        .then(text => {
+                            FS.writeFile("/foo.txt", text); // Write to MEMFS
+                            console.log("foo.txt created in MEMFS with content:", text);
+                        })
+                        .catch(err => console.error("Error fetching foo.txt:", err));
+                }
+            ]
+        };
+    </script>
+    <script src="./target/wasm32-unknown-emscripten/debug/rust-async.js"></script>
+</body>
+
+</html>
